@@ -6,6 +6,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
 const userList = getUserList(); // assume for now this is your database
 
+const swaggerUi = require('swagger-ui-express'),
+swaggerDocument = require('./swagger.json');
+
 // GET Call for all users
 app.get("/users", (req, res) => {
   return res.status(200).send({
@@ -124,6 +127,11 @@ app.delete("/deleteUser/:id", (req, res) => {
     });
 })
 
+app.use(
+  '/api-docs',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
 
 app.listen(8000, () => {
   console.log("server listening on port 8000!");
